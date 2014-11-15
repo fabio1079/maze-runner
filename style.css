@@ -24,10 +24,11 @@
   background-color: red;
   width: 100%;
   height: 600px;
+  border: solid 2px #000;
 }
 
 #stage canvas {
-  width: 100%;
+  width: 1000px;
   height: 600px;
   background-color: green;
 }
