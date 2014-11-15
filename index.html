@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maze Runner</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="content">
+    <div id="controls">
+      <div class="data">
+        <label>
+          Speed: <input type="number" value="1" min="1" max="10" />
+        </label>
+      </div>
+
+      <div class="data">
+        <label> Depth First Search
+          <input type="radio" name="method" value="dfs" checked="checked" />
+        </label>
+        <label> Breadth First Search
+          <input type="radio" name="method" value="bfs" />
+        </label>
+      </div>
+
+      <div class="data">
+        <button>Start</button>
+      </div>
+    </div>
+
+    <div id="stage">
+      <canvas></canvas>
+    </div>
+  </div>
+</body>
+</html>
