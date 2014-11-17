@@ -59,8 +59,7 @@ function build_maze(grid) {
   }
 }
 
-function create_maze() {
-  var grid = maze_grid();
+function create_maze(grid) {
   var i, j;
 
   for(i = 0; i < WIDTH; i++) {
@@ -76,5 +75,3 @@ function create_maze() {
 
   build_maze(grid);
 }
-
-create_maze();
