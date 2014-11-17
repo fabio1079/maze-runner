@@ -46,5 +46,9 @@ var Stack = (function(){
     return $length != 0;
   }
 
+  Stack.prototype.getLastAdded = function() {
+    return $tail.data;
+  }
+
   return Stack;
 })();

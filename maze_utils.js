@@ -1,14 +1,23 @@
 var canvas = document.querySelector("#stage canvas");
 var context = canvas.getContext("2d");
-var COLORS = [
+var WIDTH = canvas.width/10;
+var HEIGHT = canvas.height/10;
+var START = new Position(1, 1);
+var END = new Position(WIDTH-2, HEIGHT-2);
+var COLORS_CODES = [
   "#000000", // 0 -> black , emptyspace
   "#ffffff", // 1 -> white , wall
   "#115577", // 2 -> ?     , walked path
   "#ffff00", // 3 -> yellow, correct path
-  "#ff0000", // 4 -> red   , start/end points
+  "#ff0000", // 4 -> red   , end point
 ];
-var WIDTH = canvas.width/10;
-var HEIGHT = canvas.height/10;
+COLOR_WORDS = {
+  empty: 0,
+  wall: 1,
+  walked: 2,
+  correct: 3,
+  end: 4
+}
 
 /*
  1 1 1 1 1 1 1 1 1 1 1 1
@@ -46,13 +55,13 @@ function maze_grid() {
 function build_maze(grid) {
   var i, j;
 
-  context.fillStyle = COLORS[0];
+  context.fillStyle = COLORS_CODES[0];
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   for(i = 0; i < WIDTH; i++) {
     for(j = 0; j < HEIGHT; j++) {
       if( grid[i][j] != 0 ) {
-        context.fillStyle = COLORS[grid[i][j]];
+        context.fillStyle = COLORS_CODES[grid[i][j]];
         context.fillRect(i*10, j*10, 10, 10);
       }
     }
@@ -70,8 +79,8 @@ function create_maze(grid) {
     }
   }
 
-  grid[1][1] = 4;
-  grid[WIDTH-2][HEIGHT-2] = 4;
+  grid[1][1] = COLOR_WORDS.correct;
+  grid[WIDTH-2][HEIGHT-2] = COLOR_WORDS.end;
 
   build_maze(grid);
 }
