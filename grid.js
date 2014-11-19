@@ -91,6 +91,14 @@ var Grid = (function(){
     return $grid[position.x][position.y] == $COLOR_WORDS.end;
   };
 
+  Grid.prototype.setCorrect = function(position) {
+    $grid[position.x][position.y] = $COLOR_WORDS.correct;
+  }
+
+  Grid.prototype.setWalked = function(position) {
+    $grid[position.x][position.y] = $COLOR_WORDS.walked;
+  }
+
   Grid.prototype.getValidPossibilities = function(actual) {
     var possibilities = [
       new Position(actual.x, actual.y-1),
