@@ -1,6 +1,4 @@
-var canvas = document.querySelector("#stage canvas");
-var context = canvas.getContext("2d");
-var WIDTH = canvas.width/10;
+/*var WIDTH = canvas.width/10;
 var HEIGHT = canvas.height/10;
 var START = new Position(1, 1);
 var END = new Position(WIDTH-2, HEIGHT-2);
@@ -18,7 +16,7 @@ COLOR_WORDS = {
   correct: 3,
   end: 4
 }
-
+*/
 /*
  1 1 1 1 1 1 1 1 1 1 1 1
  1 0 1 0 1 0 1 1 0 0 0 1
@@ -29,7 +27,7 @@ COLOR_WORDS = {
  1 0 0 0 0 0 1 0 1 1 0 0
  1 1 1 1 1 1 1 1 1 1 1 1
 */
-
+/*
 function maze_grid() {
   var grid = new Array(WIDTH);
 
@@ -84,3 +82,4 @@ function create_maze(grid) {
 
   build_maze(grid);
 }
+*/
