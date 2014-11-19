@@ -85,7 +85,26 @@ var Grid = (function(){
 
   Grid.prototype.getEndPosition = function() {
     return $END;
-  }
+  };
+
+  Grid.prototype.foundEnd = function(position) {
+    return $grid[position.x][position.y] == $COLOR_WORDS.end;
+  };
+
+  Grid.prototype.getValidPossibilities = function(actual) {
+    var possibilities = [
+      new Position(actual.x, actual.y-1),
+      new Position(actual.x+1, actual.y),
+      new Position(actual.x, actual.y+1),
+      new Position(actual.x-1, actual.y)
+    ];
+
+    possibilities = possibilities.filter(function(value) {
+      return  !/^[1-3]$/.test($grid[value.x][value.y]);
+    });
+
+    return possibilities;
+  };
 
   return Grid;
 })();
