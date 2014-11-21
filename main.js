@@ -10,6 +10,7 @@ window.addEventListener('load', function(){
   grid.draw();
 
   document.querySelector("#start").addEventListener('click', function(){
+    this.disabled = true;
     var radioButtons = document.querySelectorAll("input[type='radio']");
     var selectedRadio = null;
 

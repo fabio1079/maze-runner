@@ -1,8 +1,9 @@
 var breadthFirstSearch = (function(){
   var $grid;
 
-  function draw(queue, visited) {
+  function draw(queue) {
     var found_end = false;
+    var last_visited = null;
     var actual_position = queue.shift();
     var possibilities = [];
 
@@ -11,27 +12,25 @@ var breadthFirstSearch = (function(){
     $grid.setWalked(actual_position);
 
     if( !found_end )
-      visitNeighbors(possibilities, queue, visited, actual_position);
+      visitNeighbors(possibilities, queue, actual_position);
     else
-      visited.add(actual_position);
+      last_visited = actual_position;
 
     $grid.draw();
 
     if( !found_end && queue.getLength() > 0 ) {
       window.setTimeout(function(){
-        draw(queue, visited);
+        draw(queue);
       }, 1);
     } else if(found_end) {
-      trace_route(queue, visited);
+      trace_route(queue, last_visited);
     } else {
       queue.clear();
-      visited.clear();
+      last_visited = null;
     }
   }
 
-  function visitNeighbors(neighbors, queue, visited, actual_position) {
-    var added_value = false;
-
+  function visitNeighbors(neighbors, queue, actual_position) {
     for(var i = 0; i < neighbors.length; i++) {
       if( queue.find(neighbors[i]) == null) {
         $grid.setCorrect(neighbors[i]);
@@ -43,12 +42,9 @@ var breadthFirstSearch = (function(){
         $grid.setWalked(neighbors[i]);
       }
     }
-
-    if( added_value )
-      visited.add(actual_position);
   }
 
-  function trace_route(queue, visited) {
+  function trace_route(queue, last_visited) {
     var position;
 
     while( queue.hasData() ) {
@@ -56,28 +52,27 @@ var breadthFirstSearch = (function(){
       $grid.setWalked(position);
     }
 
-    position = visited.pop();
+    position = last_visited;
 
     while( position != null ) {
       $grid.setCorrect(position);
       position = position.father;
     }
 
-    visited.clear();
     $grid.draw();
   }
 
   function init(grid) {
-    $grid = new Grid();
+    $grid = grid;
     $grid.draw();
 
     var actual_position = $grid.getStartPosition();
+    var last_visited;
 
     var queue = new Queue();
-    var visited = new Stack();
     queue.add(actual_position);
 
-    draw(queue, visited);
+    draw(queue, last_visited);
   }
 
   return init;
