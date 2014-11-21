@@ -93,11 +93,19 @@ var Grid = (function(){
   };
 
   Grid.prototype.setStartPosition = function(position) {
-    $start = position;
+    if( $grid[position.x][position.y] != $COLOR_WORDS.wall ) {
+      $grid[$start.x][$start.y] = $COLOR_WORDS.empty;
+      $start = position;
+      $grid[$start.x][$start.y] = $COLOR_WORDS.start;
+    }
   }
 
   Grid.prototype.setEndPosition = function(position) {
-    $end = position;
+    if( $grid[position.x][position.y] != $COLOR_WORDS.wall ) {
+      $grid[$end.x][$end.y] = $COLOR_WORDS.empty;
+      $end = position;
+      $grid[$end.x][$end.y] = $COLOR_WORDS.end;
+    }
   }
 
   Grid.prototype.foundEnd = function(position) {
