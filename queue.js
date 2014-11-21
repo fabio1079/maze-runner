@@ -50,5 +50,18 @@ var Queue = (function(){
     return $head.data;
   }
 
+  Queue.prototype.find = function(data) {
+    var node = $head;
+
+    while( node != null ) {
+      if( node.data == data )
+        break;
+      else
+        node = node.next;
+    }
+
+    return node;
+  }
+
   return Queue;
 })();
