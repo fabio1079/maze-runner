@@ -1,4 +1,4 @@
-(function(){
+var breadthFirstSearch = (function(){
   var $grid;
 
   function draw(queue, visited) {
@@ -67,7 +67,7 @@
     $grid.draw();
   }
 
-  function init() {
+  function init(grid) {
     $grid = new Grid();
     $grid.draw();
 
@@ -80,5 +80,5 @@
     draw(queue, visited);
   }
 
-  window.addEventListener('load', init);
+  return init;
 })();

@@ -1,5 +1,4 @@
-(function(){
-  var $frames = 10000;
+var dephFirstSearch = (function(){
   var $actual_position;
 
   function getNeighbor(possibilities) {
@@ -29,12 +28,12 @@
     if( stack.hasData() ) {
       window.setTimeout(function(){
         draw(stack);
-      }, 1000/frames);
+      }, 10);
     }
   }
 
-  function init() {
-    $grid = new Grid();
+  function init(grid) {
+    $grid = grid;
     $grid.draw();
 
     $actual_position = $grid.getStartPosition();
@@ -45,5 +44,5 @@
     draw(stack);
   }
 
-  window.addEventListener('load', init);
+  return init;
 })();
