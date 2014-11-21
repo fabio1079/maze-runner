@@ -21,29 +21,31 @@
       visited.add($actual_position);
   }
 
+  function trace_route(queue, visited) {
+
+  }
+
   function draw(queue, visited) {
     var found_end = false;
     var $actual_position = queue.shift();
     var possibilities = [];
 
-    if($actual_position != null) {
-      possibilities = $grid.getValidPossibilities($actual_position);
-      $grid.setWalked($actual_position);
-      found_end = $grid.foundEnd($actual_position);
-    } else {
-      return;
-    }
+    possibilities = $grid.getValidPossibilities($actual_position);
+    found_end = $grid.foundEnd($actual_position);
+    $grid.setWalked($actual_position);
 
     if( !found_end )
       visitNeighbors(possibilities, queue, visited);
 
     $grid.draw();
 
-    if( queue.hasData() || !found_end ) {
+    if( !found_end && queue.getLength() > 0 ) {
       window.setTimeout(function(){
-        console.log("GO !");
         draw(queue, visited);
       }, 1000/frames);
+    } else if(found_end) {
+
+      trace_route(queue, visited);
     }
   }
 
