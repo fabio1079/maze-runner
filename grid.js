@@ -4,7 +4,7 @@ var Grid = (function(){
   var $WIDTH = $CANVAS.width/10;
   var $HEIGHT = $CANVAS.height/10;
   var $START = new Position(1, 1);
-  var $END = new Position($WIDTH-70, $HEIGHT-50);
+  var $END = new Position($WIDTH-2, $HEIGHT-2);
 
   var $COLORS_CODES = [
     "#000000", // 0 -> black , emptyspace
