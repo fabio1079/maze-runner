@@ -1,26 +1,23 @@
 var Grid = (function(){
-  var $CANVAS  = document.querySelector("#stage canvas");
-  var $CONTEXT = $CANVAS.getContext("2d");
-  var $WIDTH = $CANVAS.width/10;
-  var $HEIGHT = $CANVAS.height/10;
-  var $START = new Position(1, 1);
-  var $END = new Position($WIDTH-2, $HEIGHT-2);
+  var $CANVAS, $WIDTH, $HEIGHT, $COLORS_CODES, $COLOR_WORDS, $start, $end, $grid;
 
-  var $COLORS_CODES = [
+  $COLORS_CODES = [
     "#000000", // 0 -> black , emptyspace
     "#ffffff", // 1 -> white , wall
     "#115577", // 2 -> ?     , walked path
     "#ffff00", // 3 -> yellow, correct path
     "#ff0000", // 4 -> red   , end point
+    "#00ff00", // 5 -> green , start point
   ];
-  var $COLOR_WORDS = {
+  $COLOR_WORDS = {
     empty: 0,
     wall: 1,
     walked: 2,
     correct: 3,
-    end: 4
+    end: 4,
+    start: 5
   }
-  var $grid;
+
 
   function emptyGrid() {
     var grid = new Array($WIDTH);
@@ -54,11 +51,19 @@ var Grid = (function(){
       }
     }
 
-    $grid[$START.x][$START.y] = $COLOR_WORDS.correct;
-    $grid[$END.x][$END.y] = $COLOR_WORDS.end;
+    $grid[$start.x][$start.y] = $COLOR_WORDS.start;
+    $grid[$end.x][$end.y] = $COLOR_WORDS.end;
   }
 
-  function Grid() {
+  function Grid(canvas) {
+    $CANVAS  = canvas;
+    $CONTEXT = $CANVAS.getContext("2d");
+    $WIDTH = $CANVAS.width/10;
+    $HEIGHT = $CANVAS.height/10;
+
+    $start = new Position(1, 1);
+    $end = new Position($WIDTH-2, $HEIGHT-2);
+
     $grid = emptyGrid();
     createMaze();
   }
@@ -80,15 +85,23 @@ var Grid = (function(){
   };
 
   Grid.prototype.getStartPosition = function() {
-    return $START;
+    return $start;
   };
 
   Grid.prototype.getEndPosition = function() {
-    return $END;
+    return $end;
   };
 
+  Grid.prototype.setStartPosition = function(position) {
+    $start = position;
+  }
+
+  Grid.prototype.setEndPosition = function(position) {
+    $end = position;
+  }
+
   Grid.prototype.foundEnd = function(position) {
-    return ( ($END.x == position.x) && ($END.y == position.y) );
+    return ( ($end.x == position.x) && ($end.y == position.y) );
   };
 
   Grid.prototype.setCorrect = function(position) {
