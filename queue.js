@@ -63,5 +63,9 @@ var Queue = (function(){
     return node;
   }
 
+  Queue.prototype.clear = function() {
+    while( this.hasData() ) this.shift();
+  }
+
   return Queue;
 })();

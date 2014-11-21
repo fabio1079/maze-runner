@@ -50,5 +50,9 @@ var Stack = (function(){
     return $tail.data;
   }
 
+  Stack.prototype.clear = function() {
+    while( this.hasData() ) this.pop();
+  }
+
   return Stack;
 })();

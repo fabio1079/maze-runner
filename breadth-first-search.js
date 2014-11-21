@@ -23,6 +23,9 @@
       }, 1);
     } else if(found_end) {
       trace_route(queue, visited);
+    } else {
+      queue.clear();
+      visited.clear();
     }
   }
 
@@ -60,6 +63,7 @@
       position = position.father;
     }
 
+    visited.clear();
     $grid.draw();
   }
 
