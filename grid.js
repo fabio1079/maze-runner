@@ -45,7 +45,7 @@ var Grid = (function(){
 
     for(i = 0; i < $WIDTH; i++) {
       for(j = 0; j < $HEIGHT; j++) {
-        if( parseInt(Math.random()*10) <= 2 ) {
+        if( Math.random() <= 0.3 ) {
           $grid[i][j] = $COLOR_WORDS.wall;
         }
       }
