@@ -3,9 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Maze Runner</title>
+  <link rel="stylesheet" type="text/css" href="css-reset.css">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+  <div id="help-block">
+    <div id="help-block-close">
+      <span>X</span>
+    </div>
+
+    <div id="help-block-content">
+      <ul>
+        <li>
+          First click on the maze(or whatever you call it), then click on the button "Set Start Point".
+        </li>
+        <li>
+          Second click on the maze again and on the button "Set End Point".
+        </li>
+        <li>
+          Third choose the search method
+        </li>
+        <li>
+          And last, click on the button "Start Search"
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="content-blocker"></div>
+
   <div id="content">
     <div id="controls">
       <div class="data">
@@ -18,15 +44,26 @@
 
       <div class="data">
         <label> Depth First Search
-          <input type="radio" name="method" value="dfs" checked="checked" />
+          <input class="radio-button" type="radio" name="method" value="dfs" checked="checked" />
         </label>
+      </div>
+
+      <div class="data">
         <label> Breadth First Search
-          <input type="radio" name="method" value="bfs" />
+          <input class="radio-button" type="radio" name="method" value="bfs" />
         </label>
       </div>
 
       <div class="data">
         <button id="start-search" disabled="disabled">Start Search</button>
+      </div>
+
+       <div class="data">
+        <a href="https://github.com/fabio1079/maze-runner" target="blank">Project Github</a>
+      </div>
+
+      <div class="data">
+        <a href="#" id="btn-help">Help</a>
       </div>
     </div>
 
