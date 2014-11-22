@@ -77,5 +77,7 @@
     $startSearchButton.addEventListener('click', startSearchAction);
 
     $canvas.addEventListener('click', canvasClickMarker);
+
+    $startPositionButton.disabled = false;
   });
 })();
