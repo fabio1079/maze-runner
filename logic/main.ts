@@ -1,12 +1,68 @@
-(function(){
-  var $grid, $canvas, $startPositionButton, $endPositionButton, $startSearchButton, $btnHelp, $helpBlockClose;
+///<reference path="./position.ts" />
+///<reference path="./node.ts" />
+///<reference path="./grid.ts" />
+///<reference path="./stack.ts" />
+///<reference path="./queue.ts" />
+///<reference path="./breadth-first-search.ts" />
+///<reference path="./depth-first-search.ts" />
 
-  function getRealMouseCoords(canvas, event) {
-    var totalOffsetX = 0;
-    var totalOffsetY = 0;
-    var canvasX = 0;
-    var canvasY = 0;
-    var currentElement = canvas;
+
+class Main {
+  private grid: Grid;
+  private canvas: Element;
+  private startPositionButton: HTMLButtonElement;
+  private endPositionButton: HTMLButtonElement;
+  private startSearchButton: HTMLButtonElement;
+  private btnHelp: Element;
+  private helpBlockClose: Element;
+
+
+  constructor() {
+    this.canvas = document.querySelector("#stage canvas");
+
+    this.startPositionButton = <HTMLButtonElement> document.querySelector("#set-start-position");
+    this.endPositionButton = <HTMLButtonElement> document.querySelector("#set-end-position");
+    this.startSearchButton = <HTMLButtonElement> document.querySelector("#start-search");
+    this.btnHelp = document.querySelector("#btn-help");
+    this.helpBlockClose = document.querySelector("#help-block-close span");
+
+    this.grid = new Grid(this.canvas);
+    this.grid.draw();
+
+    this.startPositionButton.addEventListener('click', () => {
+      this.setStartPosition(this.startPositionButton);
+    });
+    
+    this.endPositionButton.addEventListener('click', () => {
+      this.setEndPosition(this.endPositionButton);
+    });
+    
+    this.startSearchButton.addEventListener('click', () => {
+      this.startSearchAction(this.startSearchButton);
+    });
+    
+    this.btnHelp.addEventListener('click', () => {
+      this.showHelpBoxAction();
+    });
+    
+    this.helpBlockClose.addEventListener('click', () => {
+      this.hideHelpBoxAction();
+    });
+
+    this.canvas.addEventListener('click', () => {
+      this.canvasClickMarker(this.canvas);
+    });
+
+    this.startPositionButton.disabled = false;
+  }
+  
+  
+  getRealMouseCoords(canvas: any, event: any): any {
+    let totalOffsetX: number = 0;
+    let totalOffsetY: number = 0;
+    let canvasX: number = 0;
+    let canvasY: number = 0;
+    let currentElement = canvas;
 
     do {
         totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
@@ -19,105 +75,103 @@
     return {x:canvasX, y:canvasY};
   }
 
-  function initSearch(selectedRadio) {
-    if( selectedRadio.value == "dfs" )
-      dephFirstSearch($grid);
-    else if( selectedRadio.value == "bfs" )
-      breadthFirstSearch($grid);
-  }
 
-  function canvasClickMarker(event) {
-    var positions = getRealMouseCoords(this, event);
-    var position = new Position(parseInt(positions.x/10), parseInt(positions.y/10));
-
-    if( !$startPositionButton.disabled ) {
-      $grid.setStartPosition(position);
-      $grid.draw();
-    } else if( !$endPositionButton.disabled ) {
-      $grid.setEndPosition(position);
-      $grid.draw();
+  private initSearch(selectedRadio: HTMLInputElement) {
+    if( selectedRadio.value === "dfs" ) {
+      let dephFirstSearch: DephFirstSearch = new DephFirstSearch(this.grid);
+    } else if( selectedRadio.value == "bfs" ) {
+      let breadthFirstSearch: BreadthFirstSearch = new BreadthFirstSearch(this.grid);
     }
   }
 
-  function setStartPosition() {
-    this.disabled = true;
-    $endPositionButton.disabled = false;
+
+  private canvasClickMarker(event) {
+    let positions: any = this.getRealMouseCoords(this, event);
+    let position: Position = new Position(Math.floor(positions.x/10), Math.floor(positions.y/10));
+
+    if (!this.startPositionButton.disabled) {
+      this.grid.setStartPosition(position);
+      this.grid.draw();
+    } else if (!this.endPositionButton.disabled) {
+      this.grid.setEndPosition(position);
+      this.grid.draw();
+    }
   }
 
-  function setEndPosition() {
-    this.disabled = true;
-    $startSearchButton.disabled = false;
+
+  private setStartPosition(buttonStartPosition: HTMLButtonElement) {
+    buttonStartPosition.disabled = true;
+    this.endPositionButton.disabled = false;
   }
 
-  function startSearchAction() {
-    this.disabled = true;
-    var radioButtons = document.querySelectorAll("input[type='radio']");
-    var selectedRadio = null;
 
-    for(var i = 0; i < radioButtons.length; i++)
-      if( radioButtons[i].checked )
-        selectedRadio = radioButtons[i];
-
-    if( selectedRadio != null )
-      initSearch(selectedRadio);
+  private setEndPosition(buttonEndPosition: HTMLButtonElement) {
+    buttonEndPosition.disabled = true;
+    this.startSearchButton.disabled = false;
   }
 
-  function showContentBlocker() {
-    var contentBlocker = document.querySelector("#content-blocker");
+
+  private startSearchAction(searchStartButton: HTMLButtonElement) {
+    searchStartButton.disabled = true;
+    
+    let radioButtons: NodeList = document.querySelectorAll("input[type='radio']");
+    let selectedRadio: HTMLInputElement = null;
+
+    for(let i = 0, len = radioButtons.length; i < len; i++) {
+      let radioButton: HTMLInputElement = <HTMLInputElement> radioButtons[i];
+      
+      if( radioButton.checked ) {
+        selectedRadio = radioButton;
+      }
+    }
+
+    if( selectedRadio !== null ) {
+      this.initSearch(selectedRadio);
+    }
+  }
+
+
+  private showContentBlocker() {
+    let contentBlocker: HTMLDivElement = <HTMLDivElement> document.querySelector("#content-blocker");
 
     contentBlocker.style.width = ""+document.body.clientWidth+"px";
     contentBlocker.style.height = ""+document.body.clientHeight+"px";
     contentBlocker.style.display = "block";
   }
 
-  function hideContentBlocker() {
-    var contentBlocker = document.querySelector("#content-blocker");
+
+  private hideContentBlocker() {
+    let contentBlocker: HTMLDivElement = <HTMLDivElement> document.querySelector("#content-blocker");
 
     contentBlocker.style.width = "0px";
     contentBlocker.style.height = "0px";
     contentBlocker.style.display = "none";
   }
 
-  function showHelpBoxAction() {
-    showContentBlocker();
 
-    var helpBlock = document.querySelector("#help-block");
+  private showHelpBoxAction() {
+    this.showContentBlocker();
+
+    let helpBlock: HTMLDivElement = <HTMLDivElement> document.querySelector("#help-block");
 
     helpBlock.style.display = "block";
 
     return false;
   }
 
-  function hideHelpBoxAction() {
-    hideContentBlocker();
 
-    var helpBlock = document.querySelector("#help-block");
+  private hideHelpBoxAction() {
+    this.hideContentBlocker();
+
+    let helpBlock: HTMLDivElement = <HTMLDivElement> document.querySelector("#help-block");
 
     helpBlock.style.display = "none";
 
     return false;
   }
+}
 
-  window.addEventListener('load', function(){
-    $canvas = document.querySelector("#stage canvas");
 
-    $startPositionButton = document.querySelector("#set-start-position");
-    $endPositionButton = document.querySelector("#set-end-position");
-    $startSearchButton = document.querySelector("#start-search");
-    $btnHelp = document.querySelector("#btn-help");
-    $helpBlockClose = document.querySelector("#help-block-close span");
-
-    $grid = new Grid($canvas);
-    $grid.draw();
-
-    $startPositionButton.addEventListener('click', setStartPosition);
-    $endPositionButton.addEventListener('click', setEndPosition);
-    $startSearchButton.addEventListener('click', startSearchAction);
-    $btnHelp.addEventListener('click', showHelpBoxAction);
-    $helpBlockClose.addEventListener('click', hideHelpBoxAction);
-
-    $canvas.addEventListener('click', canvasClickMarker);
-
-    $startPositionButton.disabled = false;
-  });
-})();
+window.addEventListener('load', () => {
+  let main: Main = new Main();
+});
