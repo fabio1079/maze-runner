@@ -39,16 +39,13 @@ var Main = (function () {
     Main.prototype.getRealMouseCoords = function (mouseEvent, canvas) {
         var totalOffsetX = 0;
         var totalOffsetY = 0;
-        var canvasX = 0;
-        var canvasY = 0;
         var currentElement = canvas;
         do {
             totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
             totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
         } while (currentElement = currentElement.offsetParent);
-        canvasX = mouseEvent.pageX - totalOffsetX;
-        canvasY = mouseEvent.pageY - totalOffsetY;
-        return { x: canvasX, y: canvasY };
+        var realMousePosition = new GridPosition(mouseEvent.pageX - totalOffsetX, mouseEvent.pageY - totalOffsetY);
+        return realMousePosition;
     };
     Main.prototype.initSearch = function (selectedRadio) {
         if (selectedRadio.value === "dfs") {
@@ -59,8 +56,8 @@ var Main = (function () {
         }
     };
     Main.prototype.canvasClickMarker = function (mouseEvent, canvas) {
-        var positions = this.getRealMouseCoords(mouseEvent, canvas);
-        var position = new GridPosition(Math.floor(positions.x / 10), Math.floor(positions.y / 10));
+        var realMousePosition = this.getRealMouseCoords(mouseEvent, canvas);
+        var position = new GridPosition(Math.floor(realMousePosition.x / 10), Math.floor(realMousePosition.y / 10));
         if (!this.startPositionButton.disabled) {
             this.grid.setStartPosition(position);
             this.grid.draw();

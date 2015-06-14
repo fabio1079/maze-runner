@@ -57,11 +57,9 @@ class Main {
   }
 
 
-  getRealMouseCoords(mouseEvent: MouseEvent, canvas: HTMLCanvasElement): any {
+  getRealMouseCoords(mouseEvent: MouseEvent, canvas: HTMLCanvasElement): GridPosition {
     let totalOffsetX: number = 0;
     let totalOffsetY: number = 0;
-    let canvasX: number = 0;
-    let canvasY: number = 0;
     let currentElement: HTMLCanvasElement = canvas;
 
     do {
@@ -69,10 +67,12 @@ class Main {
         totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
     } while(currentElement = <HTMLCanvasElement> currentElement.offsetParent);
 
-    canvasX = mouseEvent.pageX - totalOffsetX;
-    canvasY = mouseEvent.pageY - totalOffsetY;
+    let realMousePosition: GridPosition = new GridPosition(
+      mouseEvent.pageX - totalOffsetX,
+      mouseEvent.pageY - totalOffsetY
+     );
 
-    return {x:canvasX, y:canvasY};
+    return realMousePosition;
   }
 
 
@@ -86,8 +86,11 @@ class Main {
 
 
   private canvasClickMarker(mouseEvent: MouseEvent, canvas: HTMLCanvasElement) {
-    let positions: any = this.getRealMouseCoords(mouseEvent, canvas);
-    let position: GridPosition = new GridPosition(Math.floor(positions.x/10), Math.floor(positions.y/10));
+    let realMousePosition: GridPosition = this.getRealMouseCoords(mouseEvent, canvas);
+    let position: GridPosition = new GridPosition(
+      Math.floor(realMousePosition.x/10),
+      Math.floor(realMousePosition.y/10)
+    );
 
     if (!this.startPositionButton.disabled) {
       this.grid.setStartPosition(position);
