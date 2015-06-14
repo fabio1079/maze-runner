@@ -114,7 +114,7 @@ class Grid {
   }
 
 
-  setEndPosition(position) {
+  setEndPosition(position: GridPosition) {
     if( this.maze[position.x][position.y] != this.colorsWords.wall ) {
       this.maze[this.end.x][this.end.y] = this.colorsWords.empty;
       this.end = position;
