@@ -10,7 +10,7 @@ class Queue extends LinkedList {
 
 
   shift(): GridPosition {
-    if( !this.hasData() ) { 
+    if (!this.hasData() ) {
       return null;
     }
     
@@ -23,8 +23,8 @@ class Queue extends LinkedList {
 
     return data;
   }
-  
-  
+
+
   getFirstAdded(): GridPosition {
     return this.head.data;
   }

@@ -6,16 +6,16 @@ class LinkedList {
   protected tail: NodePosition;
   protected length: number;
 
- 
+
   constructor() {
     this.head = null;
     this.tail = null;
     this.length = 0;
   }
-  
-  
+
+
   add(data: GridPosition) {
-    let nodePosition = new NodePosition(data);
+    let nodePosition: NodePosition = new NodePosition(data);
 
     if( this.length === 0 ) {
       this.head = nodePosition;

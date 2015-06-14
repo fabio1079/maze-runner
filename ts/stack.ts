@@ -8,15 +8,15 @@ class Stack extends LinkedList {
     super();
   }
 
-  
+
   pop(): GridPosition {
     if (!this.hasData()) { 
       return null; 
     }
-    
+
     let node: NodePosition = this.tail
     let data: GridPosition = node.data;
-    
+
     this.tail = node.prev;
 
     node = null;

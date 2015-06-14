@@ -9,7 +9,7 @@
 
 class Main {
   private grid: Grid;
-  private canvas: Element;
+  private canvas: HTMLCanvasElement;
   private startPositionButton: HTMLButtonElement;
   private endPositionButton: HTMLButtonElement;
   private startSearchButton: HTMLButtonElement;
@@ -18,7 +18,7 @@ class Main {
 
 
   constructor() {
-    this.canvas = document.querySelector("#stage canvas");
+    this.canvas = <HTMLCanvasElement> document.querySelector("#stage canvas");
 
     this.startPositionButton = <HTMLButtonElement> document.querySelector("#set-start-position");
     this.endPositionButton = <HTMLButtonElement> document.querySelector("#set-end-position");
@@ -29,48 +29,48 @@ class Main {
     this.grid = new Grid(this.canvas);
     this.grid.draw();
 
-    this.startPositionButton.addEventListener('click', () => {
+    this.startPositionButton.addEventListener('click', (mouseEvent: MouseEvent) => {
       this.setStartPosition(this.startPositionButton);
     });
-    
-    this.endPositionButton.addEventListener('click', () => {
+
+    this.endPositionButton.addEventListener('click', (mouseEvent: MouseEvent) => {
       this.setEndPosition(this.endPositionButton);
     });
-    
-    this.startSearchButton.addEventListener('click', () => {
+
+    this.startSearchButton.addEventListener('click', (mouseEvent: MouseEvent) => {
       this.startSearchAction(this.startSearchButton);
     });
-    
-    this.btnHelp.addEventListener('click', () => {
+
+    this.btnHelp.addEventListener('click', (mouseEvent: MouseEvent) => {
       this.showHelpBoxAction();
     });
-    
-    this.helpBlockClose.addEventListener('click', () => {
+
+    this.helpBlockClose.addEventListener('click', (mouseEvent: MouseEvent) => {
       this.hideHelpBoxAction();
     });
 
-    this.canvas.addEventListener('click', () => {
-      this.canvasClickMarker(this.canvas);
+    this.canvas.addEventListener('click', (mouseEvent: MouseEvent) => {
+      this.canvasClickMarker(mouseEvent, this.canvas);
     });
 
     this.startPositionButton.disabled = false;
   }
-  
-  
-  getRealMouseCoords(canvas: any, event: any): any {
+
+
+  getRealMouseCoords(mouseEvent: MouseEvent, canvas: HTMLCanvasElement): any {
     let totalOffsetX: number = 0;
     let totalOffsetY: number = 0;
     let canvasX: number = 0;
     let canvasY: number = 0;
-    let currentElement = canvas;
+    let currentElement: HTMLCanvasElement = canvas;
 
     do {
         totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
         totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
-    } while(currentElement = currentElement.offsetParent);
+    } while(currentElement = <HTMLCanvasElement> currentElement.offsetParent);
 
-    canvasX = event.pageX - totalOffsetX;
-    canvasY = event.pageY - totalOffsetY;
+    canvasX = mouseEvent.pageX - totalOffsetX;
+    canvasY = mouseEvent.pageY - totalOffsetY;
 
     return {x:canvasX, y:canvasY};
   }
@@ -85,8 +85,8 @@ class Main {
   }
 
 
-  private canvasClickMarker(event) {
-    let positions: any = this.getRealMouseCoords(this, event);
+  private canvasClickMarker(mouseEvent: MouseEvent, canvas: HTMLCanvasElement) {
+    let positions: any = this.getRealMouseCoords(mouseEvent, canvas);
     let position: GridPosition = new GridPosition(Math.floor(positions.x/10), Math.floor(positions.y/10));
 
     if (!this.startPositionButton.disabled) {
@@ -113,13 +113,13 @@ class Main {
 
   private startSearchAction(searchStartButton: HTMLButtonElement) {
     searchStartButton.disabled = true;
-    
+
     let radioButtons: NodeList = document.querySelectorAll("input[type='radio']");
     let selectedRadio: HTMLInputElement = null;
 
     for(let i = 0, len = radioButtons.length; i < len; i++) {
       let radioButton: HTMLInputElement = <HTMLInputElement> radioButtons[i];
-      
+
       if( radioButton.checked ) {
         selectedRadio = radioButton;
       }
