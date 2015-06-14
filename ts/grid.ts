@@ -1,4 +1,4 @@
-///<reference path="./position.ts" />
+///<reference path="./grid-position.ts" />
 
 class Grid {
   private context: any;
@@ -7,8 +7,8 @@ class Grid {
   private height: number;
   private colors_codes: Array<string>;
   private colors_words: any;
-  private start: Position;
-  private end: Position;
+  private start: GridPosition;
+  private end: GridPosition;
   private maze: Array<Array<number>>;
 
 
@@ -18,8 +18,8 @@ class Grid {
     this.width = this.canvas.width/10;
     this.height = this.canvas.height/10;
 
-    this.start = new Position(1, 1);
-    this.end = new Position(this.width-2, this.height-2);
+    this.start = new GridPosition(1, 1);
+    this.end = new GridPosition(this.width-2, this.height-2);
 
     this.colors_codes = [
       "#000000", // 0 -> black , emptyspace
@@ -94,17 +94,17 @@ class Grid {
   }
 
 
-  getStartPosition(): Position {
+  getStartPosition(): GridPosition {
     return this.start;
   }
 
 
-  getEndPosition(): Position {
+  getEndPosition(): GridPosition {
     return this.end;
   }
 
 
-  setStartPosition(position: Position) {
+  setStartPosition(position: GridPosition) {
     if( this.maze[position.x][position.y] != this.colors_words.wall ) {
       this.maze[this.start.x][this.start.y] = this.colors_words.empty;
       this.start = position;
@@ -120,27 +120,27 @@ class Grid {
     }
   }
 
-  foundEnd(position: Position): boolean {
+  foundEnd(position: GridPosition): boolean {
     return ( (this.end.x == position.x) && (this.end.y == position.y) );
   };
 
-  setCorrect(position: Position) {
+  setCorrect(position: GridPosition) {
     this.maze[position.x][position.y] = this.colors_words.correct;
   }
 
-  setWalked(position: Position) {
+  setWalked(position: GridPosition) {
     this.maze[position.x][position.y] = this.colors_words.walked;
   }
 
-  getValidPossibilities(actual: Position): Array<Position> {
-    var possibilities: Array<Position> = [
-      new Position(actual.x, actual.y-1),
-      new Position(actual.x+1, actual.y),
-      new Position(actual.x, actual.y+1),
-      new Position(actual.x-1, actual.y)
+  getValidPossibilities(actual: GridPosition): Array<GridPosition> {
+    var possibilities: Array<GridPosition> = [
+      new GridPosition(actual.x, actual.y-1),
+      new GridPosition(actual.x+1, actual.y),
+      new GridPosition(actual.x, actual.y+1),
+      new GridPosition(actual.x-1, actual.y)
     ];
 
-    possibilities = possibilities.filter((value: Position) => {
+    possibilities = possibilities.filter((value: GridPosition) => {
       return  !/^[1-3]$/.test(String(this.maze[value.x][value.y]));
     });
 

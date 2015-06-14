@@ -1,5 +1,5 @@
-///<reference path="./position.ts" />
-///<reference path="./node.ts" />
+///<reference path="./grid-position.ts" />
+///<reference path="./node-position.ts" />>
 ///<reference path="./grid.ts" />
 ///<reference path="./stack.ts" />
 ///<reference path="./queue.ts" />
@@ -87,7 +87,7 @@ class Main {
 
   private canvasClickMarker(event) {
     let positions: any = this.getRealMouseCoords(this, event);
-    let position: Position = new Position(Math.floor(positions.x/10), Math.floor(positions.y/10));
+    let position: GridPosition = new GridPosition(Math.floor(positions.x/10), Math.floor(positions.y/10));
 
     if (!this.startPositionButton.disabled) {
       this.grid.setStartPosition(position);

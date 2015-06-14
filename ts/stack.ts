@@ -1,5 +1,5 @@
-///<reference path="./position.ts" />
-///<reference path="./node.ts" />
+///<reference path="./grid-position.ts" />
+///<reference path="./node-position.ts" />
 ///<reference path="./linked-list.ts" />
 
 class Stack extends LinkedList {
@@ -9,13 +9,13 @@ class Stack extends LinkedList {
   }
 
   
-  pop(): Position {
+  pop(): GridPosition {
     if (!this.hasData()) { 
       return null; 
     }
     
-    let node = this.tail
-    let data = node.data;
+    let node: NodePosition = this.tail
+    let data: GridPosition = node.data;
     
     this.tail = node.prev;
 
@@ -26,7 +26,7 @@ class Stack extends LinkedList {
   }
 
 
-  getLastAdded(): Position {
+  getLastAdded(): GridPosition {
     if (this.hasData()) {
       return this.tail.data;
     } else {

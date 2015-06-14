@@ -1,9 +1,9 @@
-///<reference path="./position.ts" />
-///<reference path="./node.ts" />
+///<reference path="./grid-position.ts" />
+///<reference path="./node-position.ts" />
 
 class LinkedList {
-  protected head: Node;
-  protected tail: Node;
+  protected head: NodePosition;
+  protected tail: NodePosition;
   protected length: number;
 
  
@@ -14,15 +14,15 @@ class LinkedList {
   }
   
   
-  add(data: Position) {
-    let node = new Node(data);
+  add(data: GridPosition) {
+    let nodePosition = new NodePosition(data);
 
     if( this.length === 0 ) {
-      this.head = node;
+      this.head = nodePosition;
       this.tail = this.head;
     } else {
-      node.prev = this.tail;
-      this.tail.next = node;
+      nodePosition.prev = this.tail;
+      this.tail.next = nodePosition;
 
       this.tail = this.tail.next;
     }

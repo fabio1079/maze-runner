@@ -1,7 +1,7 @@
-class Position {
+class GridPosition {
   public x: number;
   public y: number;
-  public father: Position;
+  public father: GridPosition;
  
  
   constructor(x: number, y: number) {

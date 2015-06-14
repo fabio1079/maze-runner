@@ -1,5 +1,4 @@
-///<reference path="./position.ts" />
-///<reference path="./node.ts" />
+///<reference path="./grid-position.ts" />
 ///<reference path="./grid.ts" />
 ///<reference path="./queue.ts" />
 
@@ -12,7 +11,7 @@ class BreadthFirstSearch {
     this.grid = grid;
     this.grid.draw();
 
-    let actualPosition: Position = this.grid.getStartPosition();
+    let actualPosition: GridPosition = this.grid.getStartPosition();
 
     let queue = new Queue();
     queue.add(actualPosition);
@@ -22,9 +21,9 @@ class BreadthFirstSearch {
 
 
   private draw(queue: Queue) {
-    let lastVisited: Position = null;
-    let actualPosition: Position = queue.shift();
-    let possibilities:Array<Position> = this.grid.getValidPossibilities(actualPosition);
+    let lastVisited: GridPosition = null;
+    let actualPosition: GridPosition = queue.shift();
+    let possibilities:Array<GridPosition> = this.grid.getValidPossibilities(actualPosition);
 
     let foundEnd: boolean = this.grid.foundEnd(actualPosition);
     this.grid.setWalked(actualPosition);
@@ -50,7 +49,7 @@ class BreadthFirstSearch {
   }
 
 
-  private visitNeighbors(neighbors: Array<Position>, queue: Queue, actualPosition: Position) {
+  private visitNeighbors(neighbors: Array<GridPosition>, queue: Queue, actualPosition: GridPosition) {
     for(let i = 0, len = neighbors.length; i < len; i++) {
       if(queue.find(neighbors[i]) === null) {
         this.grid.setCorrect(neighbors[i]);
@@ -64,12 +63,12 @@ class BreadthFirstSearch {
   }
 
 
-  private traceRoute(queue: Queue, lastVisited: Position) {
+  private traceRoute(queue: Queue, lastVisited: GridPosition) {
     while( queue.hasData() ) {
       this.grid.setWalked(queue.shift());
     }
 
-    let position: Position = lastVisited;
+    let position: GridPosition = lastVisited;
 
     while( position != null ) {
       this.grid.setCorrect(position);

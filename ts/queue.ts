@@ -1,5 +1,5 @@
-///<reference path="./position.ts" />
-///<reference path="./node.ts" />
+///<reference path="./grid-position.ts" />
+///<reference path="./node-position.ts" />
 ///<reference path="./linked-list.ts" />
 
 class Queue extends LinkedList {
@@ -9,7 +9,7 @@ class Queue extends LinkedList {
   }
 
 
-  shift(): Position {
+  shift(): GridPosition {
     if( !this.hasData() ) { 
       return null;
     }
@@ -25,13 +25,13 @@ class Queue extends LinkedList {
   }
   
   
-  getFirstAdded(): Position {
+  getFirstAdded(): GridPosition {
     return this.head.data;
   }
 
 
-  find(data: Position): Node {
-    let node = this.head;
+  find(data: GridPosition): NodePosition {
+    let node: NodePosition = this.head;
 
     while( node !== null ) {
       if( node.data === data ) {

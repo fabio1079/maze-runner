@@ -1,11 +1,10 @@
-///<reference path="./position.ts" />
-///<reference path="./node.ts" />
+///<reference path="./grid-position.ts" />
 ///<reference path="./grid.ts" />
 ///<reference path="./stack.ts" />
 
 
 class DephFirstSearch {
-  private actualPosition: Position;
+  private actualPosition: GridPosition;
   private grid: Grid;
 
 
@@ -22,7 +21,7 @@ class DephFirstSearch {
   }
 
 
-  private getNeighbor(possibilities: Array<Position>): Position {
+  private getNeighbor(possibilities: Array<GridPosition>): GridPosition {
     let position:number = Math.floor(Math.random()*possibilities.length);
 
     return possibilities[position];
@@ -40,12 +39,12 @@ class DephFirstSearch {
 
     this.grid.draw();
 
-    let neighbor: Position = this.getNeighbor(
+    let neighbor: GridPosition = this.getNeighbor(
       this.grid.getValidPossibilities(this.actualPosition)
     );
 
     if( typeof(neighbor) === "undefined" ) {
-      let pop: Position = stack.pop();
+      let pop: GridPosition = stack.pop();
       this.grid.setWalked(pop);
     } else {
       stack.add(neighbor);
